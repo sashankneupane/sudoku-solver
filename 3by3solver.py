@@ -1,6 +1,7 @@
 import numpy as np
+import math 
 dimension = int(input("Enter the dimension of the sudoku you want to solve:  "))
-
+m = int(math.sqrt(dimension))
 #code to input the sudoku problem 
 print("\n" + "You will be prompted to enter numbers of the sudoku row wise. For empty squares, please enter 0 and enter all numbers without any spaces." + "\n")
 print("For example:")
@@ -24,8 +25,8 @@ def sudoku_solver(array):
 #returns possible values for a placeholder from boxes
 def box_range(array, i, j):
     impossible_values = []
-    for i in range(i - i%3, i - i%3 + 3):
-        for j in range(j - j%3, j - j%3 + 3):
+    for i in range(i - i%m, i - i%m + m):
+        for j in range(j - j%m, j - j%m + m):
             if array[i][j] != 0:
                 impossible_values.append(array[i][j])
     return impossible_values
