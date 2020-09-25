@@ -5,8 +5,9 @@ This program, however, is able to solve sudoku problem of any valid grid size wi
 
 ## Program in action
 
-<img align="center" src = assets/images/input_image.jpg alt="sashankneupane"/>
-<img align="center" src = assets/images/solving_image.jpg alt="sashankneupane"/>
+<img align = "center" src = assets/images/input.png alt="sashankneupane">
+
+<img align = "center" src = assets/images/solve.png alt="sashankneupane">
 
 
 
