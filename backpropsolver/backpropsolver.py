@@ -1,62 +1,56 @@
-import numpy as np
-import math 
+import time
 
-# #MANUAL INPUT
-# d = int(input("Enter the dimension of the sudoku problem:   "))
-# if (math.sqrt(dimension) - int(math.sqrt(dimension))) == 0:
-#     r_sb = c_sb = int(math.sqrt(dimension))
-# else:
-#     r_sb, c_sb = [int(x) for x in input("Enter two numbers (dimension of the subsize grid) here (use space to separate):  ").split()]
-    
-# puzzle = []
-# print("Please input numbers by separating with spaces. Use 0 to represent unsolved numbers in the puzzle.")
-# for i in range(dimension):
-#     puzzle.append(list(map(int, input("Please input numbers of row "+ str(i)+" :    ").split())))
+#program input
+from program_input import input_
+inputt = input_()
+puzzle, order = inputt[0], inputt[1]        #order is tuple containing dimension of sudoku, and row and column size of it's subsize
 
+#you can input problems manually here from example_problems.txt... comment out program input block from above and play around!
 
-#example problem
-order = (12, 3, 4)
-puzzle = [[0, 0, 10, 0, 0, 0, 6, 0, 0, 0, 0, 9],
-           [0, 4, 0, 6, 2, 0, 0, 11, 0, 0, 0, 10],
-           [0, 0, 0, 1, 0, 4, 0, 0, 0, 7, 0, 3],
-           [0, 0, 8, 0, 0, 0, 11, 1, 0, 3, 7, 12],
-           [1, 0, 0, 10, 0, 0, 0, 0, 0, 0, 0, 5],
-           [0, 12, 0, 0, 5, 2, 0, 7, 4, 6, 0, 0],
-           [0, 0, 5, 4, 11, 0, 9, 2, 0, 0, 1, 0],
-           [9, 0, 0, 0, 0, 0, 0, 0, 8, 0, 0, 11],
-           [7, 8, 12, 0, 3, 1, 0, 0, 0, 9, 0, 0],
-           [8, 0, 11, 0, 0, 0, 3, 0, 5, 0, 0, 0],
-           [2, 0, 0, 0, 10, 0, 0, 4, 9, 0, 12, 0],
-           [6, 0, 0, 0, 0, 12, 0, 0, 0, 11, 0, 0]]
-d, r_sb, c_sb = order[0], order[1], order[2]
+def print_array(array, order):   #prints board
+    d, r_sb, c_sb = order[0] * order[1], order[0], order[1]
+    for x in range(d):
+            for y in range(d):
+                if (y + 1) % c_sb == 0 and y+1 != d:
+                    print(f"{array[x][y]:3d}", end=" |")
+                else:
+                    print(f"{array[x][y]:3d}", end="")
+            print()
+            if (x + 1) % r_sb == 0 and (x+1) != d:
+                print("-" * ((3 * order[0] * order[1]) + order[0] * 2 ))
 
-def possible(row,col,num):
-    global puzzle
+print_array(puzzle, order)
+print("\n"+"\n"+"Solving..."+"\n")
+
+def possible(array, row, col, order,num):        #checks if a value(num) is valid in given position(row, col) in sudoku(array) of dimension(order)
+    d, r_sb, c_sb = order[0]*order[1], order[0], order[1]
     for i in range(0,d):
-        if puzzle[row][i] == num:
+        if array[row][i] == num:
             return False
     for i in range(0,d):
-        if puzzle[i][col] == num:
+        if array[i][col] == num:
             return False
-    col0 = (col//c_sb)*c_sb
+    col0 = (col//c_sb)*c_sb 
     row0 = (row//r_sb)*r_sb
     for i in range(0,r_sb):
         for j in range(0,c_sb):
-            if puzzle[row0+i][col0+j] == num:
+            if array[row0+i][col0+j] == num:
                 return False
     return True
 
-def solve():
-    global puzzle
-    for row in range(d):
+def solve(array, order):            #recursion and backpropagation
+    d = order[0]*order[1]
+    for row in range(d):  
         for col in range(d):
-            if puzzle[row][col] == 0:
+            if array[row][col] == 0:
                 for num in range(1, d+1):
-                    if possible(row,col,num):
-                        puzzle[row][col] = num
-                        solve()
-                        puzzle[row][col] = 0
+                    if possible(array, row,col,order,num):
+                        array[row][col] = num
+                        solve(array, order)
+                        array[row][col] = 0
                 return 
-    print(np.array(puzzle))
-    
-solve()
+    print_array(array, order)
+    print("\n"+"Solved in ", (time.time() - start_time), " seconds."+"\n")
+
+start_time = time.time()
+solve(puzzle, order)
