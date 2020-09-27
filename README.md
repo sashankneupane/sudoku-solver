@@ -25,7 +25,7 @@ puzzle =    [[2,0,0,12,14,0,0,10,0,0,0,9,0,13,1,0],
 order = (4,4)
 ```
 ## Solution to the puzzle:
-![16X16 sudoku puzzle with 4x4 sub-grid size](images/4by4.png)
+![16X16 sudoku puzzle with 4x4 sub-grid size](images/4by4.PNG)
 
 
 
