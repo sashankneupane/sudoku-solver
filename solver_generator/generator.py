@@ -1,4 +1,4 @@
-#it is not functioning yet
+#WORK UNDER PROGRESSION
 
 from sudoku import sudoku as s
 import random
